@@ -532,3 +532,4 @@ namespace nezhaV2 {
         let version = pins.i2cReadBuffer(i2cAddr, 3);
         return `V ${version[0]}.${version[1]}.${version[2]}`;
     }
+}

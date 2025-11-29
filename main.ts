@@ -16,7 +16,7 @@ namespace nezhaV2 {
         //%block="shortest path"
         ShortPath = 1
     }
-    
+
     export enum DelayMode {
         //%block="automatic delay"
         AutoDelayStatus = 1,
@@ -31,22 +31,22 @@ namespace nezhaV2 {
         //%block="seconds"
         Second = 3
     }
-    
-    
-    export enum VerticallDirection {
+
+
+    export enum VerticalDirection {
         //%block="forward"
         Up = 1,
         //%block="backward"
         Down = 2
     }
-    
-    export enum Uint {
+
+    export enum DistanceUnit {
         //%block="cm"
         cm = 1,
         //%block="inch"
         inch = 2
     }
-    
+
     export enum DistanceAndAngleUnit {
         //%block="degrees"
         Degree = 2,
@@ -59,8 +59,8 @@ namespace nezhaV2 {
         //%block="inch"
         inch = 5
     }
-    
-    export enum MotorPostion {
+
+    export enum MotorPosition {
         //%block="M1"
         M1 = 1,
         //%block="M2"
@@ -73,12 +73,13 @@ namespace nezhaV2 {
 
     let i2cAddr: number = 0x10;
     let servoSpeedGlobal = 900
-    // 相对角度值(用于相对角度值归零函数)
+    // Relative angle value (used for relative angle zeroing function)
     let relativeAngularArr = [0, 0, 0, 0];
-    // 组合积木块变量
+    // Combo block variables
     let motorLeftGlobal = 0
     let motorRightGlobal = 0
     let degreeToDistance = 0
+    let trackWidth = 0
 
     export function delayMs(ms: number): void {
         let time = input.runningTime() + ms
@@ -107,9 +108,9 @@ namespace nezhaV2 {
     //% inlineInputMode=inline
     //% speed.min=0  speed.max=100
     //% weight=407 
-    export function move(motor: MotorPostion, speed: number, direction: MovementDirection, value: number, mode: SportsMode, isDelay: DelayMode = DelayMode.AutoDelayStatus): void {
+    export function move(motor: MotorPosition, speed: number, direction: MovementDirection, value: number, mode: SportsMode, isDelay: DelayMode = DelayMode.AutoDelayStatus): void {
         if (speed <= 0 || value <= 0) {
-            // 速度和运行值不能小于等于0
+            // Speed and run value cannot be less than or equal to 0
             return;
         }
         setServoSpeed(speed);
@@ -119,7 +120,7 @@ namespace nezhaV2 {
         }
     }
 
-    export function __move(motor: MotorPostion, direction: MovementDirection, value: number, mode: SportsMode): void {
+    export function __move(motor: MotorPosition, direction: MovementDirection, value: number, mode: SportsMode): void {
 
         let buf = pins.createBuffer(8);
         buf[0] = 0xFF;
@@ -139,7 +140,7 @@ namespace nezhaV2 {
     //% block="set %motor to rotate %turnMode at angle %angle || %isDelay  "
     //% angle.min=0  angle.max=359
     //% inlineInputMode=inline
-    export function moveToAbsAngle(motor: MotorPostion, turnMode: ServoMotionMode, angle: number, isDelay: DelayMode = DelayMode.AutoDelayStatus): void {
+    export function moveToAbsAngle(motor: MotorPosition, turnMode: ServoMotionMode, angle: number, isDelay: DelayMode = DelayMode.AutoDelayStatus): void {
         while (angle < 0) {
             angle += 360
         }
@@ -154,7 +155,7 @@ namespace nezhaV2 {
         buf[6] = turnMode;
         buf[7] = (angle >> 0) & 0XFF;
         pins.i2cWriteBuffer(i2cAddr, buf);
-        delayMs(4);// 等待不能删除，且禁止有其他任务插入，否则有BUG
+        delayMs(4);// Wait cannot be deleted, and no other tasks can be inserted, otherwise there is a BUG
         if (isDelay) {
             motorDelay(0.5, SportsMode.Second)
         }
@@ -163,7 +164,7 @@ namespace nezhaV2 {
     //% group="Basic functions"
     //% weight=404
     //% block="set %motor shutting down the motor"
-    export function stop(motor: MotorPostion): void {
+    export function stop(motor: MotorPosition): void {
         let buf = pins.createBuffer(8)
         buf[0] = 0xFF;
         buf[1] = 0xF9;
@@ -176,7 +177,7 @@ namespace nezhaV2 {
         pins.i2cWriteBuffer(i2cAddr, buf);
     }
 
-    export function __start(motor: MotorPostion, direction: MovementDirection, speed: number): void {
+    export function __start(motor: MotorPosition, direction: MovementDirection, speed: number): void {
         let buf = pins.createBuffer(8)
         buf[0] = 0xFF;
         buf[1] = 0xF9;
@@ -193,17 +194,17 @@ namespace nezhaV2 {
     //% weight=403
     //% block="set the speed of %motor to %speed \\% and start the motor"
     //% speed.min=-100  speed.max=100
-    export function start(motor: MotorPostion, speed: number): void {
+    export function start(motor: MotorPosition, speed: number): void {
         if (speed < -100) {
             speed = -100
-        }else if (speed > 100) {
+        } else if (speed > 100) {
             speed = 100
         }
         let direction = speed > 0 ? MovementDirection.CW : MovementDirection.CCW
         __start(motor, direction, Math.abs(speed))
     }
 
-    export function readAngle(motor: MotorPostion): number {
+    export function readAngle(motor: MotorPosition): number {
         delayMs(4)
         let buf = pins.createBuffer(8);
         buf[0] = 0xFF;
@@ -223,7 +224,7 @@ namespace nezhaV2 {
     //% group="Basic functions"
     //% weight=402
     //%block="%motor absolute angular value"
-    export function readAbsAngle(motor: MotorPostion): number {
+    export function readAbsAngle(motor: MotorPosition): number {
         let position = readAngle(motor)
         while (position < 0) {
             position += 3600;
@@ -234,14 +235,14 @@ namespace nezhaV2 {
     //% group="Basic functions"
     //% weight=402
     //%block="%motor relative angular value"
-    export function readRelAngle(motor: MotorPostion): number {
+    export function readRelAngle(motor: MotorPosition): number {
         return (readAngle(motor) - relativeAngularArr[motor - 1]) * 0.1;
     }
 
     //% group="Basic functions"
     //% weight=400
     //%block="%motor speed (laps/sec)"
-    export function readSpeed(motor: MotorPostion): number {
+    export function readSpeed(motor: MotorPosition): number {
         delayMs(4)
         let buf = pins.createBuffer(8)
         buf[0] = 0xFF;
@@ -262,7 +263,7 @@ namespace nezhaV2 {
     //% group="Basic functions"
     //% weight=399
     //%block="set servo %motor to zero"
-    export function reset(motor: MotorPostion): void {
+    export function reset(motor: MotorPosition): void {
         let buf = pins.createBuffer(8)
         buf[0] = 0xFF;
         buf[1] = 0xF9;
@@ -280,12 +281,12 @@ namespace nezhaV2 {
     //% group="Basic functions"
     //% weight=399
     //%block="set servo %motor relative angular to zero"
-    export function resetRelAngleValue(motor: MotorPostion) {
+    export function resetRelAngleValue(motor: MotorPosition) {
         relativeAngularArr[motor - 1] = readAngle(motor);
     }
 
     export function setServoSpeed(speed: number): void {
-        if(speed < 0) speed = 0;
+        if (speed < 0) speed = 0;
         speed *= 9;
         servoSpeedGlobal = speed;
         let buf = pins.createBuffer(8)
@@ -304,7 +305,7 @@ namespace nezhaV2 {
     //% group="Application functions"
     //% weight=410
     //%block="set the running motor to left wheel %motor_l right wheel %motor_r"
-    export function setComboMotor(motor_l: MotorPostion, motor_r: MotorPostion): void {
+    export function setComboMotor(motor_l: MotorPosition, motor_r: MotorPosition): void {
         motorLeftGlobal = motor_l;
         motorRightGlobal = motor_r;
     }
@@ -313,7 +314,7 @@ namespace nezhaV2 {
     //% weight=409
     //%block="Set %speed\\% speed and move %direction"
     //% speed.min=0  speed.max=100
-    export function comboRun(speed: number, direction: VerticallDirection): void {
+    export function comboRun(speed: number, direction: VerticalDirection): void {
         if (speed < 0) {
             speed = 0;
         } else if (speed > 100) {
@@ -338,29 +339,29 @@ namespace nezhaV2 {
     //% group="Application functions"
     //% weight=404
     //%block="Set the wheel circumference to %value %unit"
-    export function setWheelPerimeter(value: number, unit: Uint): void {
-        if(value < 0){
+    export function setWheelPerimeter(value: number, unit: DistanceUnit): void {
+        if (value < 0) {
             value = 0;
         }
-        if (unit == Uint.inch) {
+        if (unit == DistanceUnit.inch) {
             degreeToDistance = value * 2.54
-        }else{
+        } else {
             degreeToDistance = value
         }
     }
 
     //% group="Application functions"
     //% weight=403
-    //%block="Combination Motor Move at %speed to %direction %value %uint "
+    //%block="Combination Motor Move at %speed to %direction %value %unit "
     //% speed.min=0  speed.max=100
     //% inlineInputMode=inline
-    export function comboMove(speed: number, direction: VerticallDirection, value: number, uint: DistanceAndAngleUnit): void {
-        if(speed <= 0){
+    export function comboMove(speed: number, direction: VerticalDirection, value: number, unit: DistanceAndAngleUnit): void {
+        if (speed <= 0) {
             return;
         }
         setServoSpeed(speed)
         let mode;
-        switch (uint) {
+        switch (unit) {
             case DistanceAndAngleUnit.Circle:
                 mode = SportsMode.Circle;
                 break;
@@ -379,7 +380,7 @@ namespace nezhaV2 {
                 mode = SportsMode.Degree;
                 break;
         }
-        if (direction == VerticallDirection.Up) {
+        if (direction == VerticalDirection.Up) {
             __move(motorLeftGlobal, MovementDirection.CCW, value, mode)
             __move(motorRightGlobal, MovementDirection.CW, value, mode)
         }
@@ -399,6 +400,121 @@ namespace nezhaV2 {
         start(motorRightGlobal, speed_r);
     }
 
+    //% group="Application functions"
+    //% weight=401
+    //% block="Set track width to %width %unit"
+    export function setTrackWidth(width: number, unit: DistanceUnit): void {
+        if (width < 0) {
+            width = 0;
+        }
+        if (unit == DistanceUnit.inch) {
+            trackWidth = width * 2.54;
+        } else {
+            trackWidth = width;
+        }
+    }
+
+
+    //% group="Application functions"
+    //% weight=400
+    //% block="Turn %direction by %angle %unit at speed %speed\\%"
+    //% speed.min=0 speed.max=100
+    //% inlineInputMode=inline
+    export function comboTurn(direction: MovementDirection, angle: number, unit: DistanceAndAngleUnit, speed: number): void {
+        if (speed <= 0) {
+            return;
+        }
+        setServoSpeed(speed);
+
+        let value = 0;
+        let mode = SportsMode.Degree;
+
+        // Calculate the required wheel travel distance for the turn
+        // Arc length = (Angle / 360) * (PI * TrackWidth)
+        // We need to convert this distance to degrees of wheel rotation
+
+        // First convert input angle to degrees if needed
+        let angleInDegrees = 0;
+        switch (unit) {
+            case DistanceAndAngleUnit.Circle:
+                angleInDegrees = angle * 360;
+                break;
+            case DistanceAndAngleUnit.Degree:
+                angleInDegrees = angle;
+                break;
+            case DistanceAndAngleUnit.Second:
+                // For seconds, we just run for that time
+                mode = SportsMode.Second;
+                value = angle;
+                break;
+            default:
+                // For distance units (cm, inch), we treat it as an angle? 
+                // The requirement says "turn on spot by a given angle". 
+                // If the user passes cm/inch, it's ambiguous. 
+                // Let's assume the user might pass arc length? 
+                // Or maybe we should just restrict the unit to Angle units?
+                // The enum DistanceAndAngleUnit includes cm/inch.
+                // If cm/inch is passed, let's assume it's the arc length to turn.
+                let arcLength = 0;
+                if (unit == DistanceAndAngleUnit.cm) {
+                    arcLength = angle;
+                } else if (unit == DistanceAndAngleUnit.inch) {
+                    arcLength = angle * 2.54;
+                }
+
+                if (arcLength > 0) {
+                    // Convert arc length to wheel degrees
+                    // Wheel circumference = degreeToDistance * 360 / value_set_in_setWheelPerimeter?
+                    // Actually degreeToDistance is "distance per degree" if I understand correctly?
+                    // Let's check setWheelPerimeter:
+                    // degreeToDistance = value (if cm)
+                    // Wait, setWheelPerimeter says "Set the wheel circumference".
+                    // If degreeToDistance is circumference, then:
+                    // Distance per degree = circumference / 360.
+                    // But in comboMove: value = 360 * value / degreeToDistance
+                    // If value is distance (cm), and we want degrees.
+                    // degrees = distance / (circumference / 360) = distance * 360 / circumference.
+                    // So degreeToDistance IS the circumference.
+
+                    if (degreeToDistance > 0) {
+                        value = 360 * arcLength / degreeToDistance;
+                    } else {
+                        value = 0;
+                    }
+                    mode = SportsMode.Degree;
+                }
+                break;
+        }
+
+        if (mode == SportsMode.Degree && angleInDegrees > 0) {
+            // Calculate arc length for the turn
+            let arcLength = (angleInDegrees / 360) * Math.PI * trackWidth;
+            // Convert arc length to wheel degrees
+            if (degreeToDistance > 0) {
+                value = 360 * arcLength / degreeToDistance;
+            } else {
+                value = 0;
+            }
+        }
+
+        if (mode == SportsMode.Second) {
+            // Already set value and mode
+        } else if (value <= 0) {
+            return;
+        }
+
+        if (direction == MovementDirection.CW) {
+            // Turn Clockwise: Left wheel forward (CCW), Right wheel backward (CCW)
+            __move(motorLeftGlobal, MovementDirection.CCW, value, mode);
+            __move(motorRightGlobal, MovementDirection.CCW, value, mode);
+        } else {
+            // Turn Counter-Clockwise: Left wheel backward (CW), Right wheel forward (CW)
+            __move(motorLeftGlobal, MovementDirection.CW, value, mode);
+            __move(motorRightGlobal, MovementDirection.CW, value, mode);
+        }
+        motorDelay(value, mode);
+    }
+
     //% group="export functions"
     //% weight=320
     //%block="version number"
@@ -416,4 +532,3 @@ namespace nezhaV2 {
         let version = pins.i2cReadBuffer(i2cAddr, 3);
         return `V ${version[0]}.${version[1]}.${version[2]}`;
     }
-}

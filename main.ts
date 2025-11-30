@@ -312,7 +312,7 @@ namespace nezhaV2 {
 
     //% group="Application functions"
     //% weight=409
-    //%block="Set %speed\\% speed and move %direction"
+    //%block="set %speed\\% speed and move %direction"
     //% speed.min=0  speed.max=100
     export function comboRun(speed: number, direction: VerticalDirection): void {
         if (speed < 0) {
@@ -338,7 +338,7 @@ namespace nezhaV2 {
     */
     //% group="Application functions"
     //% weight=404
-    //%block="Set the wheel circumference to %value %unit"
+    //%block="set the wheel circumference to %value %unit"
     export function setWheelPerimeter(value: number, unit: DistanceUnit): void {
         if (value < 0) {
             value = 0;
@@ -352,7 +352,7 @@ namespace nezhaV2 {
 
     //% group="Application functions"
     //% weight=403
-    //%block="Combination Motor Move at %speed to %direction %value %unit "
+    //%block="combination Motor Move at %speed to %direction %value %unit "
     //% speed.min=0  speed.max=100
     //% inlineInputMode=inline
     export function comboMove(speed: number, direction: VerticalDirection, value: number, unit: DistanceAndAngleUnit): void {
@@ -402,7 +402,7 @@ namespace nezhaV2 {
 
     //% group="Application functions"
     //% weight=401
-    //% block="Set track width to %width %unit"
+    //% block="set track width to %width %unit"
     export function setTrackWidth(width: number, unit: DistanceUnit): void {
         if (width < 0) {
             width = 0;
@@ -417,7 +417,7 @@ namespace nezhaV2 {
 
     //% group="Application functions"
     //% weight=400
-    //% block="Turn %direction by %angle %unit at speed %speed\\%"
+    //% block="turn %direction by %angle %unit at speed %speed\\%"
     //% speed.min=0 speed.max=100
     //% inlineInputMode=inline
     export function comboTurn(direction: MovementDirection, angle: number, unit: DistanceAndAngleUnit, speed: number): void {

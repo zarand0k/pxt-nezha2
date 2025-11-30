@@ -9,13 +9,11 @@
     "files": [
         "README.md",
         "main.ts",
-        "_locales/pxt-nezha2-strings.json",
-        "_locales/pxt-nezha2-jsdoc-strings.json",
-        "_locales/zh/pxt-nezha2-strings.json",
-        "_locales/zh/pxt-nezha2-jsdoc-strings.json",
-        "_locales/ko/pxt-nezha2-strings.json",
-        "_locales/cs/pxt-nezha2-strings.json",
-        "_locales/cs/pxt-nezha2-jsdoc-strings.json"
+        "_locales/zh/pxt-nezha2-zarand0k-strings.json",
+        "_locales/zh/pxt-nezha2-zarand0k-jsdoc-strings.json",
+        "_locales/ko/pxt-nezha2-zarand0k-strings.json",
+        "_locales/cs/pxt-nezha2-zarand0k-strings.json",
+        "_locales/cs/pxt-nezha2-zarand0k-jsdoc-strings.json"
     ],
     "testFiles": [
         "test.ts"

@@ -1,6 +1,6 @@
 /**
  * RGB LED modules with WS2812 (NeoPixel) LEDs, e.g. Makeblock Me RGB LED,
- * connected to a Nezha port through the adapter cable.
+ * connected to a Nezha port through the Makeblock adapter cable (first signal wire).
  *
  * Based on the NeoPixel driver from pxt-PlanetX by ELECFREAKS (MIT license).
  * All blocks update the LEDs immediately, so no extra "show" block is needed.
@@ -171,7 +171,6 @@ namespace nezhaLed {
      * @param order order of colours expected by the LEDs, most LEDs use GRB
      */
     //% blockId=nezhaled_create block="RGB LED on port %port with %count LEDs || color order %order"
-    //% port.defl=nezhaV2.Port.J4
     //% count.min=1 count.defl=4
     //% blockSetVariable=strip
     //% weight=100

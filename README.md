@@ -64,12 +64,13 @@ They are listed in their own toolbox categories and translated to Czech.
 |---|---|---|
 | RGB LED | WS2812 RGB LED module (e.g. Makeblock Me RGB LED) | port J1–J4 through the adapter cable |
 | Sensors | PlanetX colour sensor | any I2C port |
-| Sensors | Octopus line-tracking sensor | each side to its own port through the adapter cable |
-| Sensors | Sonar:bit ultrasonic sensor | port J1–J4 through the adapter cable |
+| Sensors | Octopus line-tracking sensor | each side to its own port J1–J4 |
+| Sensors | Sonar:bit ultrasonic sensor | port J1–J4 |
 | PS2 controller | PlanetX wireless PS2 controller | any I2C port |
 
-Modules connected through the adapter cable use the first signal wire of the port
-(the green wire of the adapter): J1 = P1, J2 = P2, J3 = P13, J4 = P15.
+The RGB LED uses the first signal wire of the port (the green wire of the Makeblock adapter):
+J1 = P1, J2 = P2, J3 = P13, J4 = P15. The line sensor and Sonar:bit use the second signal wire,
+like PlanetX modules: J1 = P8, J2 = P12, J3 = P14, J4 = P16.
 
 ```javascript
 let strip = nezhaLed.create(nezhaV2.Port.J4, 4)

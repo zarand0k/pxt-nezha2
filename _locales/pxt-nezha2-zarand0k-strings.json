@@ -43,7 +43,7 @@
     "{id:group}Basic functions": "Basic functions",
     "{id:group}Application functions": "Application functions",
     "{id:group}export functions": "export functions",
-    "nezhaV2|block": "nezhaV2",
+    "nezhaV2|block": "Nezha Pro motors",
     "{id:category}nezhaV2": "nezhaV2",
     "nezhaV2.Port.J1|block": "J1",
     "nezhaV2.Port.J2|block": "J2",
@@ -120,5 +120,6 @@
     "nezhaPS2.PS2Axis.RightY|block": "right stick Y",
     "nezhaPS2.buttonPressed|block": "PS2 button %button is pressed",
     "nezhaPS2.stick|block": "PS2 %axis",
-    "nezhaPS2.onButtonPressed|block": "on PS2 button %button pressed"
+    "nezhaPS2.onButtonPressed|block": "on PS2 button %button pressed",
+    "{id:category}NezhaV2": "Nezha Pro motors"
 }

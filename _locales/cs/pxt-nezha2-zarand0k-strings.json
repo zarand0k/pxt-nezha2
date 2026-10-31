@@ -118,5 +118,7 @@
     "nezhaPS2.PS2Axis.RightY|block": "pravá páčka Y",
     "nezhaPS2.buttonPressed|block": "PS2 tlačítko %button je stisknuté",
     "nezhaPS2.stick|block": "PS2 %axis",
-    "nezhaPS2.onButtonPressed|block": "při stisku PS2 tlačítka %button"
+    "nezhaPS2.onButtonPressed|block": "při stisku PS2 tlačítka %button",
+    "nezhaV2|block": "Nezha Pro motory",
+    "{id:category}NezhaV2": "Nezha Pro motory"
 }

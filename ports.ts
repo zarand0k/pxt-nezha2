@@ -1,10 +1,10 @@
 /**
  * Ports of the Nezha expansion board shared by the sensor and LED blocks.
  *
- * Every RJ11 port carries two signal wires. Modules connected through the
- * Makeblock/Octopus adapter cable use the first signal wire (the green wire
- * of the adapter): J1 = P1, J2 = P2, J3 = P13, J4 = P15.
- * Native PlanetX modules with one signal use the second wire:
+ * Every RJ11 port carries two signal wires.
+ * First wire (green wire of the Makeblock RGB LED adapter):
+ * J1 = P1, J2 = P2, J3 = P13, J4 = P15.
+ * Second wire (PlanetX modules, Octopus line sensor and Sonar:bit):
  * J1 = P8, J2 = P12, J3 = P14, J4 = P16.
  */
 namespace nezhaV2 {
@@ -21,7 +21,7 @@ namespace nezhaV2 {
     }
 
     /**
-     * Pin of the first signal wire of a port (green wire of the adapter cable).
+     * Pin of the first signal wire of a port (green wire of the Makeblock RGB LED adapter).
      */
     export function adapterPin(port: Port): DigitalPin {
         switch (port) {
@@ -33,7 +33,7 @@ namespace nezhaV2 {
     }
 
     /**
-     * Pin of the second signal wire of a port (used by native PlanetX modules).
+     * Pin of the second signal wire of a port (PlanetX modules, Octopus line sensor, Sonar:bit).
      */
     export function planetXPin(port: Port): DigitalPin {
         switch (port) {

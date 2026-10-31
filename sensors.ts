@@ -1,8 +1,8 @@
 /**
  * Sensors used with the Nezha board:
  *  - PlanetX colour sensor (I2C)
- *  - Octopus line-tracking sensor (two digital outputs, adapter cable)
- *  - Sonar:bit ultrasonic distance sensor (one data wire, adapter cable)
+ *  - Octopus line-tracking sensor (two digital outputs, second wire of the port)
+ *  - Sonar:bit ultrasonic distance sensor (one data wire, second wire of the port)
  *
  * Drivers are based on pxt-PlanetX and pxt-sonarbit by ELECFREAKS (MIT license).
  */
@@ -226,7 +226,7 @@ namespace nezhaSensors {
     }
 
     function seesLine(port: nezhaV2.Port): boolean {
-        const pin = nezhaV2.adapterPin(port)
+        const pin = nezhaV2.planetXPin(port)
         pins.setPull(pin, PinPullMode.PullUp)
         return pins.digitalReadPin(pin) == 0
     }
@@ -284,10 +284,9 @@ namespace nezhaSensors {
      * @param unit unit of the result
      */
     //% blockId=nezhasensors_sonar block="ultrasonic distance on port %port in %unit"
-    //% port.defl=nezhaV2.Port.J2
     //% group="Ultrasonic sensor" weight=70
     export function distance(port: nezhaV2.Port, unit: DistanceUnit = DistanceUnit.Cm): number {
-        const pin = nezhaV2.adapterPin(port)
+        const pin = nezhaV2.planetXPin(port)
         pins.setPull(pin, PinPullMode.PullNone)
         pins.digitalWritePin(pin, 0)
         control.waitMicros(2)

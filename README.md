@@ -55,6 +55,36 @@ input.onButtonPressed(Button.B, function () {
 
 Delve into advanced functionalities like motor speed regulation and sensor data retrieval. For detailed examples and instructions, visit our [online tutorials](https://wiki.elecfreaks.com/en/microbit/expansion-board/nezha-v2/).
 
+## Additional modules used at school
+
+Besides the motors, this fork contains blocks for the modules we use with the Nezha board.
+They are listed in their own toolbox categories and translated to Czech.
+
+| Category | Module | Connection |
+|---|---|---|
+| RGB LED | WS2812 RGB LED module (e.g. Makeblock Me RGB LED) | port J1–J4 through the adapter cable |
+| Sensors | PlanetX colour sensor | any I2C port |
+| Sensors | Octopus line-tracking sensor | each side to its own port through the adapter cable |
+| Sensors | Sonar:bit ultrasonic sensor | port J1–J4 through the adapter cable |
+| PS2 controller | PlanetX wireless PS2 controller | any I2C port |
+
+Modules connected through the adapter cable use the first signal wire of the port
+(the green wire of the adapter): J1 = P1, J2 = P2, J3 = P13, J4 = P15.
+
+```javascript
+let strip = nezhaLed.create(nezhaV2.Port.J4, 4)
+strip.showColor(nezhaLed.colors(nezhaLed.LedColor.Red))
+basic.forever(function () {
+    if (nezhaSensors.distance(nezhaV2.Port.J2, nezhaSensors.DistanceUnit.Cm) < 10) {
+        strip.showColor(nezhaLed.colors(nezhaLed.LedColor.Blue))
+    }
+    nezhaV2.comboStart(nezhaPS2.stick(nezhaPS2.PS2Axis.LeftY), nezhaPS2.stick(nezhaPS2.PS2Axis.RightY))
+})
+```
+
+The drivers are based on [pxt-PlanetX](https://github.com/elecfreaks/pxt-PlanetX)
+and [pxt-sonarbit](https://github.com/elecfreaks/pxt-sonarbit) by ELECFREAKS (MIT license).
+
 ## Supported Targets
 
 - PXT/micro:bit

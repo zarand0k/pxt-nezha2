@@ -23,10 +23,9 @@ input.onButtonPressed(Button.A, function () {
 
 // ---- Combo (two-wheel robot) tests ----
 
-// Default: left motor forward = CCW, right motor forward = CW (backward compatible, 2 arguments only)
+// Default directions: left motor forward = CCW, right motor forward = CW; wheel diameter 5.6 cm, axle track 11 cm
 input.onButtonPressed(Button.B, function () {
-    nezhaV2.setComboMotor(nezhaV2.MotorPosition.M1, nezhaV2.MotorPosition.M2, nezhaV2.MovementDirection.CCW, nezhaV2.MovementDirection.CW, 5.6)
-    nezhaV2.setTrackWidth(11, nezhaV2.DistanceUnit.cm)
+    nezhaV2.setComboMotor(nezhaV2.MotorPosition.M1, nezhaV2.MotorPosition.M2, nezhaV2.MovementDirection.CCW, nezhaV2.MovementDirection.CW, 5.6, 11)
     nezhaV2.comboRun(50, nezhaV2.VerticalDirection.Up)
     basic.pause(500)
     nezhaV2.comboStop()

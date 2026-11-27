@@ -40,13 +40,6 @@ namespace nezhaV2 {
         Down = 2
     }
 
-    export enum DistanceUnit {
-        //% block="cm"
-        cm = 1,
-        //% block="inch"
-        inch = 2
-    }
-
     export enum DistanceAndAngleUnit {
         //% block="degrees"
         Degree = 2,
@@ -419,21 +412,6 @@ namespace nezhaV2 {
         __startSigned(motorLeftGlobal, leftPositiveDir, speed_l);
         __startSigned(motorRightGlobal, rightPositiveDir, speed_r);
     }
-
-    //% group="Application functions"
-    //% weight=401
-    //% block="set track width to %width %unit"
-    export function setTrackWidth(width: number, unit: DistanceUnit): void {
-        if (width < 0) {
-            width = 0;
-        }
-        if (unit == DistanceUnit.inch) {
-            trackWidth = width * 2.54;
-        } else {
-            trackWidth = width;
-        }
-    }
-
 
     //% group="Application functions"
     //% weight=400

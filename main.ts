@@ -3,71 +3,71 @@
 namespace nezhaV2 {
 
     export enum MovementDirection {
-        //%block="clockwise"
+        //% block="clockwise"
         CW = 1,
-        //%block="counterclockwise"
+        //% block="counterclockwise"
         CCW = 2
     }
     export enum ServoMotionMode {
-        //%block="clockwise"
+        //% block="clockwise"
         CW = 2,
-        //%block="counterclockwise"
+        //% block="counterclockwise"
         CCW = 3,
-        //%block="shortest path"
+        //% block="shortest path"
         ShortPath = 1
     }
 
     export enum DelayMode {
-        //%block="automatic delay"
+        //% block="automatic delay"
         AutoDelayStatus = 1,
-        //%block="no delay"
+        //% block="no delay"
         NoDelay = 0
     }
     export enum SportsMode {
-        //%block="degrees"
+        //% block="degrees"
         Degree = 2,
-        //%block="turns"
+        //% block="turns"
         Circle = 1,
-        //%block="seconds"
+        //% block="seconds"
         Second = 3
     }
 
 
     export enum VerticalDirection {
-        //%block="forward"
+        //% block="forward"
         Up = 1,
-        //%block="backward"
+        //% block="backward"
         Down = 2
     }
 
     export enum DistanceUnit {
-        //%block="cm"
+        //% block="cm"
         cm = 1,
-        //%block="inch"
+        //% block="inch"
         inch = 2
     }
 
     export enum DistanceAndAngleUnit {
-        //%block="degrees"
+        //% block="degrees"
         Degree = 2,
-        //%block="turns"
+        //% block="turns"
         Circle = 1,
-        //%block="seconds"
+        //% block="seconds"
         Second = 3,
-        //%block="cm"
+        //% block="cm"
         cm = 4,
-        //%block="inch"
+        //% block="inch"
         inch = 5
     }
 
     export enum MotorPosition {
-        //%block="M1"
+        //% block="M1"
         M1 = 1,
-        //%block="M2"
+        //% block="M2"
         M2 = 2,
-        //%block="M3"
+        //% block="M3"
         M3 = 3,
-        //%block="M4"
+        //% block="M4"
         M4 = 4
     }
 
@@ -226,7 +226,7 @@ namespace nezhaV2 {
 
     //% group="Basic functions"
     //% weight=402
-    //%block="%motor absolute angular value"
+    //% block="%motor absolute angular value"
     export function readAbsAngle(motor: MotorPosition): number {
         let position = readAngle(motor)
         while (position < 0) {
@@ -237,14 +237,14 @@ namespace nezhaV2 {
 
     //% group="Basic functions"
     //% weight=402
-    //%block="%motor relative angular value"
+    //% block="%motor relative angular value"
     export function readRelAngle(motor: MotorPosition): number {
         return (readAngle(motor) - relativeAngularArr[motor - 1]) * 0.1;
     }
 
     //% group="Basic functions"
     //% weight=400
-    //%block="%motor speed (laps/sec)"
+    //% block="%motor speed (laps/sec)"
     export function readSpeed(motor: MotorPosition): number {
         delayMs(4)
         let buf = pins.createBuffer(8)
@@ -265,7 +265,7 @@ namespace nezhaV2 {
 
     //% group="Basic functions"
     //% weight=399
-    //%block="set servo %motor to zero"
+    //% block="set servo %motor to zero"
     export function reset(motor: MotorPosition): void {
         let buf = pins.createBuffer(8)
         buf[0] = 0xFF;
@@ -283,7 +283,7 @@ namespace nezhaV2 {
 
     //% group="Basic functions"
     //% weight=399
-    //%block="set servo %motor relative angular to zero"
+    //% block="set servo %motor relative angular to zero"
     export function resetRelAngleValue(motor: MotorPosition) {
         relativeAngularArr[motor - 1] = readAngle(motor);
     }
@@ -343,7 +343,7 @@ namespace nezhaV2 {
 
     //% group="Application functions"
     //% weight=409
-    //%block="set %speed\\% speed and move %direction"
+    //% block="set %speed\\% speed and move %direction"
     //% speed.min=0  speed.max=100
     export function comboRun(speed: number, direction: VerticalDirection): void {
         if (speed < 0) {
@@ -359,7 +359,7 @@ namespace nezhaV2 {
 
     //% group="Application functions"
     //% weight=406
-    //%block="stop movement"
+    //% block="stop movement"
     export function comboStop(): void {
         stop(motorLeftGlobal)
         stop(motorRightGlobal)
@@ -367,7 +367,7 @@ namespace nezhaV2 {
 
     //% group="Application functions"
     //% weight=403
-    //%block="move at speed %speed\\% %direction by %value %unit"
+    //% block="move at speed %speed\\% %direction by %value %unit"
     //% speed.min=0  speed.max=100
     //% inlineInputMode=inline
     export function comboMove(speed: number, direction: VerticalDirection, value: number, unit: DistanceAndAngleUnit): void {
@@ -413,7 +413,7 @@ namespace nezhaV2 {
 
     //% group="Application functions"
     //% weight=402
-    //%block="set the left wheel speed at %speed_l \\%, right wheel speed at %speed_r \\% and start the motor"
+    //% block="set the left wheel speed at %speed_l \\%, right wheel speed at %speed_r \\% and start the motor"
     //% speed_l.min=-100  speed_l.max=100 speed_r.min=-100  speed_r.max=100
     export function comboStart(speed_l: number, speed_r: number): void {
         __startSigned(motorLeftGlobal, leftPositiveDir, speed_l);
@@ -528,7 +528,7 @@ namespace nezhaV2 {
 
     //% group="export functions"
     //% weight=320
-    //%block="version number"
+    //% block="version number"
     export function readVersion(): string {
         let buf = pins.createBuffer(8);
         buf[0] = 0xFF;

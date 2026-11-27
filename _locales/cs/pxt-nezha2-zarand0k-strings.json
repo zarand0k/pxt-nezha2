@@ -31,7 +31,7 @@
     "nezhaV2.readSpeed|block": "%motor rychlost (otáčky/sec)",
     "nezhaV2.reset|block": "vynulovat servo %motor",
     "nezhaV2.resetRelAngleValue|block": "vynulovat relativní úhel serva %motor",
-    "nezhaV2.setComboMotor|block": "nastavit motory: levý %motor_l pravý %motor_r",
+    "nezhaV2.setComboMotor|block": "nastavit motory: levý %motor_l pravý %motor_r || levý dopředu %dir_l pravý dopředu %dir_r průměr kola %wheelDiameter cm rozchod kol %axleTrack cm",
     "nezhaV2.comboRun|block": "nastavit rychlost %speed\\% a jet %direction",
     "nezhaV2.comboStop|block": "zastavit pohyb",
     "nezhaV2.setWheelPerimeter|block": "nastavit obvod kola na %value %unit",

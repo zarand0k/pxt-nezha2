@@ -78,6 +78,9 @@ namespace nezhaV2 {
     // Combo block variables
     let motorLeftGlobal = 0
     let motorRightGlobal = 0
+    // Direction of rotation of each motor that moves the robot forward
+    let leftPositiveDir = MovementDirection.CCW
+    let rightPositiveDir = MovementDirection.CW
     let degreeToDistance = 0
     let trackWidth = 0
 
@@ -302,12 +305,40 @@ namespace nezhaV2 {
 
     }
 
+    /**
+    * Set the motors of the robot. The direction is the rotation of the motor
+    * (seen from the shaft) that moves the robot forward, like Direction in PyBricks.
+    * Wheel diameter and axle track (distance between the wheels' centers) are in cm.
+    */
     //% group="Application functions"
     //% weight=410
-    //%block="set the running motor to left wheel %motor_l right wheel %motor_r"
-    export function setComboMotor(motor_l: MotorPosition, motor_r: MotorPosition): void {
+    //% block="set the running motor to left wheel %motor_l right wheel %motor_r || left forward %dir_l right forward %dir_r wheel diameter %wheelDiameter cm axle track %axleTrack cm"
+    //% dir_l.defl=MovementDirection.CCW dir_r.defl=MovementDirection.CW
+    //% wheelDiameter.min=0 axleTrack.min=0
+    //% inlineInputMode=inline
+    export function setComboMotor(motor_l: MotorPosition, motor_r: MotorPosition,
+        dir_l: MovementDirection = MovementDirection.CCW,
+        dir_r: MovementDirection = MovementDirection.CW,
+        wheelDiameter: number = 0,
+        axleTrack: number = 0): void {
         motorLeftGlobal = motor_l;
         motorRightGlobal = motor_r;
+        leftPositiveDir = dir_l;
+        rightPositiveDir = dir_r;
+        if (wheelDiameter > 0) {
+            degreeToDistance = wheelDiameter * Math.PI;
+        }
+        if (axleTrack > 0) {
+            trackWidth = axleTrack;
+        }
+    }
+
+    // Rotation direction of a wheel's motor for moving forward (or backward)
+    function wheelDir(positiveDir: MovementDirection, forward: boolean): MovementDirection {
+        if (forward) {
+            return positiveDir;
+        }
+        return positiveDir == MovementDirection.CW ? MovementDirection.CCW : MovementDirection.CW;
     }
 
     //% group="Application functions"
@@ -320,8 +351,9 @@ namespace nezhaV2 {
         } else if (speed > 100) {
             speed = 100;
         }
-        __start(motorLeftGlobal, direction % 2 + 1, speed);
-        __start(motorRightGlobal, (direction + 1) % 2 + 1, speed);
+        let forward = direction == VerticalDirection.Up;
+        __start(motorLeftGlobal, wheelDir(leftPositiveDir, forward), speed);
+        __start(motorRightGlobal, wheelDir(rightPositiveDir, forward), speed);
     }
 
 
@@ -380,15 +412,20 @@ namespace nezhaV2 {
                 mode = SportsMode.Degree;
                 break;
         }
-        if (direction == VerticalDirection.Up) {
-            __move(motorLeftGlobal, MovementDirection.CCW, value, mode)
-            __move(motorRightGlobal, MovementDirection.CW, value, mode)
-        }
-        else {
-            __move(motorLeftGlobal, MovementDirection.CW, value, mode)
-            __move(motorRightGlobal, MovementDirection.CCW, value, mode)
-        }
+        let forward = direction == VerticalDirection.Up;
+        __move(motorLeftGlobal, wheelDir(leftPositiveDir, forward), value, mode)
+        __move(motorRightGlobal, wheelDir(rightPositiveDir, forward), value, mode)
         motorDelay(value, mode);
+    }
+
+    // Start a motor; positive speed moves the wheel forward
+    function __startSigned(motor: MotorPosition, positiveDir: MovementDirection, speed: number): void {
+        if (speed < -100) {
+            speed = -100
+        } else if (speed > 100) {
+            speed = 100
+        }
+        __start(motor, wheelDir(positiveDir, speed > 0), Math.abs(speed))
     }
 
     //% group="Application functions"
@@ -396,8 +433,8 @@ namespace nezhaV2 {
     //%block="set the left wheel speed at %speed_l \\%, right wheel speed at %speed_r \\% and start the motor"
     //% speed_l.min=-100  speed_l.max=100 speed_r.min=-100  speed_r.max=100
     export function comboStart(speed_l: number, speed_r: number): void {
-        start(motorLeftGlobal, -speed_l);
-        start(motorRightGlobal, speed_r);
+        __startSigned(motorLeftGlobal, leftPositiveDir, speed_l);
+        __startSigned(motorRightGlobal, rightPositiveDir, speed_r);
     }
 
     //% group="Application functions"
@@ -504,13 +541,13 @@ namespace nezhaV2 {
         }
 
         if (direction == MovementDirection.CW) {
-            // Turn Clockwise: Left wheel forward (CCW), Right wheel backward (CCW)
-            __move(motorLeftGlobal, MovementDirection.CCW, value, mode);
-            __move(motorRightGlobal, MovementDirection.CCW, value, mode);
+            // Turn Clockwise: Left wheel forward, Right wheel backward
+            __move(motorLeftGlobal, wheelDir(leftPositiveDir, true), value, mode);
+            __move(motorRightGlobal, wheelDir(rightPositiveDir, false), value, mode);
         } else {
-            // Turn Counter-Clockwise: Left wheel backward (CW), Right wheel forward (CW)
-            __move(motorLeftGlobal, MovementDirection.CW, value, mode);
-            __move(motorRightGlobal, MovementDirection.CW, value, mode);
+            // Turn Counter-Clockwise: Left wheel backward, Right wheel forward
+            __move(motorLeftGlobal, wheelDir(leftPositiveDir, false), value, mode);
+            __move(motorRightGlobal, wheelDir(rightPositiveDir, true), value, mode);
         }
         motorDelay(value, mode);
     }

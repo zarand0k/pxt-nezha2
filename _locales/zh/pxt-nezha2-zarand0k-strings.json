@@ -31,7 +31,7 @@
     "nezhaV2.readSpeed|block": "%motor 速度 (圈/秒)",
     "nezhaV2.reset|block": "设置电机%motor 归零",
     "nezhaV2.resetRelAngleValue|block": "设置电机%motor 相对角度为零",
-    "nezhaV2.setComboMotor|block": "将运转电机设置为左轮%motor_l 右轮%motor_r ",
+    "nezhaV2.setComboMotor|block": "将运转电机设置为左轮%motor_l 右轮%motor_r || 左轮前进 %dir_l 右轮前进 %dir_r 轮径 %wheelDiameter cm 轮距 %axleTrack cm",
     "nezhaV2.comboRun|block": "以%speed \\% 速度向 %direction 移动",
     "nezhaV2.comboStop|block": "停止运动",
     "nezhaV2.setWheelPerimeter|block": "设置轮子周长为 %value %unit ",

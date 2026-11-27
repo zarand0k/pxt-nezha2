@@ -31,7 +31,7 @@
     "nezhaV2.readSpeed|block": "%motor 의 속도 값",
     "nezhaV2.reset|block": "%motor 모터 각도를 0으로 설정",
     "nezhaV2.resetRelAngleValue|block": "모터 %motor 의 상대각을 0으로 설정함",
-    "nezhaV2.setComboMotor|block": "왼쪽 모터를 %motor_l 오른쪽 모터를 %motor_r 로 설정",
+    "nezhaV2.setComboMotor|block": "왼쪽 모터를 %motor_l 오른쪽 모터를 %motor_r 로 설정 || 왼쪽 전진 %dir_l 오른쪽 전진 %dir_r 바퀴 지름 %wheelDiameter cm 트랙 너비 %axleTrack cm",
     "nezhaV2.comboRun|block": "모터 속도를 로 %speed\\% 하고 %direction",
     "nezhaV2.comboStop|block": "모든 모터 멈추기",
     "nezhaV2.setWheelPerimeter|block": "모터 한 바퀴 회전하고 %value %unit 로 설정하기",

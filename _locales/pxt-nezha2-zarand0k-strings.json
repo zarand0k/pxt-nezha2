@@ -31,7 +31,7 @@
     "nezhaV2.readSpeed|block": "%motor speed (laps/sec)",
     "nezhaV2.reset|block": "set servo %motor to zero",
     "nezhaV2.resetRelAngleValue|block": "set servo %motor relative angular to zero",
-    "nezhaV2.setComboMotor|block": "set the running motor to left wheel %motor_l right wheel %motor_r",
+    "nezhaV2.setComboMotor|block": "set the running motor to left wheel %motor_l right wheel %motor_r || left forward %dir_l right forward %dir_r wheel diameter %wheelDiameter cm axle track %axleTrack cm",
     "nezhaV2.comboRun|block": "set %speed\\% speed and move %direction",
     "nezhaV2.comboStop|block": "stop movement",
     "nezhaV2.setWheelPerimeter|block": "set the wheel circumference to %value %unit",

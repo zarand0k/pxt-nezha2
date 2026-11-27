@@ -367,7 +367,7 @@ namespace nezhaV2 {
 
     //% group="Application functions"
     //% weight=403
-    //%block="move at speed %speed\% %direction by %value %unit"
+    //%block="move at speed %speed\\% %direction by %value %unit"
     //% speed.min=0  speed.max=100
     //% inlineInputMode=inline
     export function comboMove(speed: number, direction: VerticalDirection, value: number, unit: DistanceAndAngleUnit): void {

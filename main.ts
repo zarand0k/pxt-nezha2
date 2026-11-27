@@ -365,26 +365,9 @@ namespace nezhaV2 {
         stop(motorRightGlobal)
     }
 
-    /**
-    * The distance length of the motor movement per circle
-    */
-    //% group="Application functions"
-    //% weight=404
-    //%block="set the wheel circumference to %value %unit"
-    export function setWheelPerimeter(value: number, unit: DistanceUnit): void {
-        if (value < 0) {
-            value = 0;
-        }
-        if (unit == DistanceUnit.inch) {
-            degreeToDistance = value * 2.54
-        } else {
-            degreeToDistance = value
-        }
-    }
-
     //% group="Application functions"
     //% weight=403
-    //%block="combination Motor Move at %speed to %direction %value %unit "
+    //%block="move at speed %speed\% %direction by %value %unit"
     //% speed.min=0  speed.max=100
     //% inlineInputMode=inline
     export function comboMove(speed: number, direction: VerticalDirection, value: number, unit: DistanceAndAngleUnit): void {
@@ -501,17 +484,8 @@ namespace nezhaV2 {
 
                 if (arcLength > 0) {
                     // Convert arc length to wheel degrees
-                    // Wheel circumference = degreeToDistance * 360 / value_set_in_setWheelPerimeter?
-                    // Actually degreeToDistance is "distance per degree" if I understand correctly?
-                    // Let's check setWheelPerimeter:
-                    // degreeToDistance = value (if cm)
-                    // Wait, setWheelPerimeter says "Set the wheel circumference".
-                    // If degreeToDistance is circumference, then:
-                    // Distance per degree = circumference / 360.
-                    // But in comboMove: value = 360 * value / degreeToDistance
-                    // If value is distance (cm), and we want degrees.
-                    // degrees = distance / (circumference / 360) = distance * 360 / circumference.
-                    // So degreeToDistance IS the circumference.
+                    // degreeToDistance is the wheel circumference (set in setComboMotor)
+                    // degrees = distance * 360 / circumference
 
                     if (degreeToDistance > 0) {
                         value = 360 * arcLength / degreeToDistance;

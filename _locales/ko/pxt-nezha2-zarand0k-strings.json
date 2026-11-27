@@ -34,7 +34,6 @@
     "nezhaV2.setComboMotor|block": "왼쪽 모터를 %motor_l 오른쪽 모터를 %motor_r 로 설정 || 왼쪽 전진 %dir_l 오른쪽 전진 %dir_r 바퀴 지름 %wheelDiameter cm 트랙 너비 %axleTrack cm",
     "nezhaV2.comboRun|block": "모터 속도를 로 %speed\\% 하고 %direction",
     "nezhaV2.comboStop|block": "모든 모터 멈추기",
-    "nezhaV2.setWheelPerimeter|block": "모터 한 바퀴 회전하고 %value %unit 로 설정하기",
     "nezhaV2.comboMove|block": "설정하여 %speed \\%속도로 %direction %value %unit 로 모든 모터 이동",
     "nezhaV2.comboStart|block": "왼쪽 모터 속도를 %speed_l \\%로, 오른쪽 모터 속도를 %speed_r \\%로 설정",
     "nezhaV2.setTrackWidth|block": "트랙 너비를 %width %unit 로 설정",

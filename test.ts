@@ -25,8 +25,7 @@ input.onButtonPressed(Button.A, function () {
 
 // Default: left motor forward = CCW, right motor forward = CW (backward compatible, 2 arguments only)
 input.onButtonPressed(Button.B, function () {
-    nezhaV2.setComboMotor(nezhaV2.MotorPosition.M1, nezhaV2.MotorPosition.M2)
-    nezhaV2.setWheelPerimeter(17.6, nezhaV2.DistanceUnit.cm)
+    nezhaV2.setComboMotor(nezhaV2.MotorPosition.M1, nezhaV2.MotorPosition.M2, nezhaV2.MovementDirection.CCW, nezhaV2.MovementDirection.CW, 5.6)
     nezhaV2.setTrackWidth(11, nezhaV2.DistanceUnit.cm)
     nezhaV2.comboRun(50, nezhaV2.VerticalDirection.Up)
     basic.pause(500)

@@ -1,5 +1,4 @@
 {
-  "nezhaV2.setWheelPerimeter": "Vzdálenost pohybu motoru na jednu otáčku",
   "nezhaLed": "RGB LED moduly (WS2812) připojené k portu desky Nezha redukcí.",
   "nezhaLed.create": "Vytvoří RGB LED připojenou k portu desky Nezha redukcí. Uložte ji do proměnné a používejte v ostatních blocích RGB LED.",
   "nezhaLed.create|param|port": "port desky Nezha",
